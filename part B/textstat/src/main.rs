@@ -10,6 +10,7 @@ fn main() {
     // Get parameters from command line
     let args: Vec<String> = env::args().collect();
     let filename = &args[1];
+    let mut total_characters = 0;
 
     // Create a path to the desired file
     let path = Path::new(filename);
@@ -34,20 +35,18 @@ fn main() {
 
     s.replace(".", "");
     s.replace(",","");
-    s.remove(".");
 
 
 
     let mut words: HashMap<&str, usize> = HashMap::new();
     for word in s.split(is_whitespace).filter(is_not_empty) {
+    	total_characters += word.chars().count();
         if let Some(count) = words.get_mut(word) {
             *count += 1;
             continue;
         }
         words.insert(word, 1);
     }
-
-
 
     let iterator = words.iter();
     let counter = iterator.count();
@@ -57,9 +56,9 @@ fn main() {
     count_vec.sort_by(|a, b| b.1.cmp(&a.1));
     count_vec.truncate(10);
 
-
-    println!("{}", counter);
-    println!("{:?}",count_vec);
+    println!("Word count: {}", counter);
+    println!("Highest occuring words: {:?}",count_vec);
+    println!("Avarage word size: {}", total_characters/counter);
 
     #[inline]
     fn is_not_empty(s: &&str) -> bool {
