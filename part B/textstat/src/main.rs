@@ -3,9 +3,12 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::path::Path;
 use std::env;
+use std::collections::HashMap;
 
 fn main() {
 
+	let mut avg_word_size = 0;
+	let mut word_count = 0;
     // Get parameters from command line
     let args: Vec<String> = env::args().collect();
     let filename = &args[1];
@@ -24,12 +27,19 @@ fn main() {
     };
 
     // Read the file contents into a string, returns `io::Result<usize>`
-    let mut s = String::new();
-    match file.read_to_string(&mut s) {
+    let mut buffer = String::new();
+    match file.read_to_string(&mut buffer) {
         Err(why) => panic!("couldn't read {}: {}", display,
                                                    why.description()),
-        Ok(_) => print!("{} contains:\n{}", display, s),
+        Ok(_) => {
+        	let mut words: HashMap<&str, usize> = HashMap::new();
+    		for word in buffer.split_whitespace() {
+        		if let Some(count) = words.get_mut(word){
+        			*count += 1;
+        			continue;
+        		}
+        		words.insert(word, 1);
+        	}
+        },
     }
-
-    // `file` goes out of scope, and the "hello.txt" file gets closed
 }
