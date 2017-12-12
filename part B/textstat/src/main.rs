@@ -65,7 +65,7 @@ fn main() {
 
     fn words_per_size(map: &mut HashMap<&str, usize>) -> HashMap<usize, usize> {
         let mut length_words: HashMap<usize, usize> = HashMap::new();
-        for n in 1..10 {
+        for n in 1..11 {
             length_words.insert(n, 0);
         }
         for (key, value) in map {
