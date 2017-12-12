@@ -55,11 +55,14 @@ fn main() {
 
 
 
-    fn average_wordsize(map: &mut HashMap<&str, usize>) {
-        for (key, value) in &*map {
-            println!("{} / {}", key, value);
+    fn average_wordsize(map: &mut HashMap<&str, usize>) -> usize {
+        let mut tot_chars = 0;
+        let count = count(map);
+        for (key, value) in map {
+            // println!("{} / {}", key, value);
+            tot_chars += key.chars().count() * *value;
         }
-        //map.clear();
+        return tot_chars/count;
     }
 
     fn words_per_size(map: &mut HashMap<&str, usize>) -> HashMap<usize, usize> {
@@ -87,7 +90,7 @@ fn main() {
     }
 
     println!("amount of words: {}", count(&mut words));
-    println!("amount of words: {:?}", average_wordsize(&mut words));
+    println!("average wordsize: {:?}", average_wordsize(&mut words));
     println!("words per size: {:?}", words_per_size(&mut words));
 
  
