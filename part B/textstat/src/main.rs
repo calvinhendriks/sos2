@@ -46,8 +46,10 @@ fn main() {
     }
 
     fn count(map: &mut HashMap<&str, usize>) -> usize{
-        let iterator = map.iter();
-        let counter = iterator.count();
+        let mut counter = 0;
+        for value in map.values() {
+            counter += value;
+        }
         return counter;
     }
 
