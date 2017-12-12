@@ -10,7 +10,6 @@ fn main() {
     // Get parameters from command line
     let args: Vec<String> = env::args().collect();
     let filename = &args[1];
-    let mut total_characters = 0;
 
     // Create a path to the desired file
     let path = Path::new(filename);
@@ -30,7 +29,7 @@ fn main() {
     match file.read_to_string(&mut s) {
         Err(why) => panic!("couldn't read {}: {}", display,
                                                    why.description()),
-        Ok(_) => print!("{} contains:\n{}", display, s),
+        Ok(_) => print!("file read succesfully \n"),
     }
 
     s.replace(".", "");
@@ -39,7 +38,6 @@ fn main() {
 
     let mut words: HashMap<&str, usize> = HashMap::new();
     for word in s.split(is_whitespace).filter(is_not_empty) {
-    	total_characters += word.chars().count();
         if let Some(count) = words.get_mut(word) {
             *count += 1;
             continue;
@@ -94,7 +92,6 @@ fn main() {
     println!("amount of words: {}", count(&mut words));
     println!("average wordsize: {:?}", average_wordsize(&mut words));
     println!("words per size: {:?}", words_per_size(&mut words));
-
     println!("top 10: {:?}", top10(&mut words));
 
 
