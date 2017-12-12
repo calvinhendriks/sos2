@@ -69,17 +69,21 @@ fn main() {
         //map.clear();
     }
 
-    fn top10(map: &mut HashMap<&str, usize>) {
-        for (key, value) in &*map {
-            println!("{} / {}", key, value);
-        }
+    fn top10<'a>(map: &'a mut HashMap<&str, usize>) -> Vec<(&'a&'a str, &'a usize)>  {
+        let iterator2 = map.iter();
+        let mut count_vec: Vec<_> = iterator2.collect();
+        count_vec.sort_by(|a, b| b.1.cmp(&a.1));
+        count_vec.truncate(10);
+        return count_vec;
         //map.clear();
     }
 
     println!("amount of words: {}", count(&mut words));
     println!("amount of words: {:?}", average_wordsize(&mut words));
 
- 
+    println!("top 10: {:?}", top10(&mut words));
+
+
 
     #[inline]
     fn is_not_empty(s: &&str) -> bool {
