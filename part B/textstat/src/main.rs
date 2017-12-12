@@ -10,6 +10,7 @@ fn main() {
     // Get parameters from command line
     let args: Vec<String> = env::args().collect();
     let filename = &args[1];
+    let mut total_characters = 0;
 
     // Create a path to the desired file
     let path = Path::new(filename);
@@ -36,18 +37,15 @@ fn main() {
     s.replace(",","");
 
 
-
-
     let mut words: HashMap<&str, usize> = HashMap::new();
     for word in s.split(is_whitespace).filter(is_not_empty) {
+    	total_characters += word.chars().count();
         if let Some(count) = words.get_mut(word) {
             *count += 1;
             continue;
         }
         words.insert(word, 1);
     }
-
-    //let mut iterator = words.iter();
 
     fn count(map: &mut HashMap<&str, usize>) -> usize{
         let iterator = map.iter();
@@ -78,12 +76,10 @@ fn main() {
         //map.clear();
     }
 
-
-
-
-
     println!("amount of words: {}", count(&mut words));
     println!("amount of words: {:?}", average_wordsize(&mut words));
+
+ 
 
     #[inline]
     fn is_not_empty(s: &&str) -> bool {
