@@ -34,7 +34,7 @@ fn main() {
 
     s.replace(".", "");
     s.replace(",","");
-    s.remove(".");
+
 
 
 
@@ -47,19 +47,43 @@ fn main() {
         words.insert(word, 1);
     }
 
+    //let mut iterator = words.iter();
+
+    fn count(map: &mut HashMap<&str, usize>) -> usize{
+        let iterator = map.iter();
+        let counter = iterator.count();
+        return counter;
+    }
 
 
-    let iterator = words.iter();
-    let counter = iterator.count();
 
-    let iterator2 = words.iter();
-    let mut count_vec: Vec<_> = iterator2.collect();
-    count_vec.sort_by(|a, b| b.1.cmp(&a.1));
-    count_vec.truncate(10);
+    fn average_wordsize(map: &mut HashMap<&str, usize>) {
+        for (key, value) in &*map {
+            println!("{} / {}", key, value);
+        }
+        //map.clear();
+    }
+
+    fn words_per_size(map: &mut HashMap<&str, usize>) {
+        for (key, value) in &*map {
+            println!("{} / {}", key, value);
+        }
+        //map.clear();
+    }
+
+    fn top10(map: &mut HashMap<&str, usize>) {
+        for (key, value) in &*map {
+            println!("{} / {}", key, value);
+        }
+        //map.clear();
+    }
 
 
-    println!("{}", counter);
-    println!("{:?}",count_vec);
+
+
+
+    println!("amount of words: {}", count(&mut words));
+    println!("amount of words: {:?}", average_wordsize(&mut words));
 
     #[inline]
     fn is_not_empty(s: &&str) -> bool {
