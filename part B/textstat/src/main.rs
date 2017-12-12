@@ -62,11 +62,21 @@ fn main() {
         //map.clear();
     }
 
-    fn words_per_size(map: &mut HashMap<&str, usize>) {
-        for (key, value) in &*map {
-            println!("{} / {}", key, value);
+    fn words_per_size(map: &mut HashMap<&str, usize>) -> HashMap<usize, usize> {
+        let mut length_words: HashMap<usize, usize> = HashMap::new();
+        for n in 1..10 {
+            length_words.insert(n, 0);
         }
-        //map.clear();
+        for (key, value) in map {
+            //println!("{} / {}", key, value);
+            let _chars = key.chars().count();
+            if let Some(char_count) = length_words.get_mut(&_chars) {
+                *char_count += *value;
+                continue;
+                }
+            length_words.insert(_chars,1);
+        }
+        return length_words;
     }
 
     fn top10(map: &mut HashMap<&str, usize>) {
@@ -78,6 +88,7 @@ fn main() {
 
     println!("amount of words: {}", count(&mut words));
     println!("amount of words: {:?}", average_wordsize(&mut words));
+    println!("words per size: {:?}", words_per_size(&mut words));
 
  
 
