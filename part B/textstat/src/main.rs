@@ -55,18 +55,31 @@ fn main() {
 
 
 
-    fn average_wordsize(map: &mut HashMap<&str, usize>) {
-        for (key, value) in &*map {
-            println!("{} / {}", key, value);
+    fn average_wordsize(map: &mut HashMap<&str, usize>) -> usize {
+        let mut tot_chars = 0;
+        let count = count(map);
+        for (key, value) in map {
+            // println!("{} / {}", key, value);
+            tot_chars += key.chars().count() * *value;
         }
-        //map.clear();
+        return tot_chars/count;
     }
 
-    fn words_per_size(map: &mut HashMap<&str, usize>) {
-        for (key, value) in &*map {
-            println!("{} / {}", key, value);
+    fn words_per_size(map: &mut HashMap<&str, usize>) -> HashMap<usize, usize> {
+        let mut length_words: HashMap<usize, usize> = HashMap::new();
+        for n in 1..10 {
+            length_words.insert(n, 0);
         }
-        //map.clear();
+        for (key, value) in map {
+            //println!("{} / {}", key, value);
+            let _chars = key.chars().count();
+            if let Some(char_count) = length_words.get_mut(&_chars) {
+                *char_count += *value;
+                continue;
+                }
+            length_words.insert(_chars,1);
+        }
+        return length_words;
     }
 
     fn top10<'a>(map: &'a mut HashMap<&str, usize>) -> Vec<(&'a&'a str, &'a usize)>  {
@@ -79,7 +92,8 @@ fn main() {
     }
 
     println!("amount of words: {}", count(&mut words));
-    println!("amount of words: {:?}", average_wordsize(&mut words));
+    println!("average wordsize: {:?}", average_wordsize(&mut words));
+    println!("words per size: {:?}", words_per_size(&mut words));
 
     println!("top 10: {:?}", top10(&mut words));
 
