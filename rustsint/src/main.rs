@@ -1,4 +1,5 @@
 use std::io::{self, Write};
+mod sorted_container;
 
 #[derive(Debug)]
 enum Command {
@@ -41,8 +42,45 @@ fn parse_command(input: String) -> Command {
     }
 }
 
-fn main() {
+#[cfg(test)]
+#[test]
+fn test1() {
+    let t = sorted_container::Tree::new();
+    assert_eq!(t.root.is_some(), false, "Root of tree is not empty!");
+}
+#[test]
+fn test2() {
+    let mut t = sorted_container::Tree::new();
+    assert_eq!(t.root.is_some(), false, "Root of tree is not empty!");
+    t.insert(sorted_container::Data::new(10, "aap".to_string()));
+    if let Some(ref root) = t.root {
+        assert_eq!(root.data.age, 10, "Data is not equivalent");
+        assert_eq!(root.data.name, "aap".to_string(), "Data is not equivalent");
+        assert_eq!(root.left.is_some(), false, "Left node of root is not null");
+        assert_eq!(root.right.is_some(), false, "Right node of root is not null");
+    }
 
+    let dif_data = sorted_container::Data::new(20, "noot".to_string());
+    assert_eq!(t.contains(dif_data), false, "Data should not be in the container");
+
+    // ERASE IS NOT IMPLEMENTED
+
+}
+#[test]
+fn test3() {
+    // ERASE IS NOT IMPLEMENTED
+}
+#[test]
+fn test4() {
+    // ERASE IS NOT IMPLEMENTED
+}
+#[test]
+fn test5() {
+    // ERASE IS NOT IMPLEMENTED
+}
+
+fn main() {
+	let mut t = sorted_container::Tree::new();
     loop {
         let mut input = String::new();
 
@@ -52,16 +90,23 @@ fn main() {
             Ok(_) => {
                 match parse_command(input) {
                     Command::Insert{age, name} => {
-                        unimplemented!();
+                        t.insert(sorted_container::Data::new(age, name));
                     },
                     Command::Erase{age, name} => {
                         unimplemented!();
                     },
                     Command::Contains{age, name} => {
-                        unimplemented!();
-                                        }
+                        match t.contains(sorted_container::Data::new(age, name)) {
+                        	true => {
+                        		println!("y\n");
+                        	},
+                        	false => {
+                        		println!("n\n");
+                        	}
+                        }
+                    }
                     Command::Print => {
-                        unimplemented!();
+                        t.print_tree();
                     },
                     Command::Exit => {
                         println!("Exiting...");
