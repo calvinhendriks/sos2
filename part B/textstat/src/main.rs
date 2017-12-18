@@ -4,6 +4,9 @@ use std::io::prelude::*;
 use std::path::Path;
 use std::env;
 use std::collections::HashMap;
+use regex::Regex;
+
+extern crate regex;
 
 fn main() {
 
@@ -31,13 +34,27 @@ fn main() {
                                                    why.description()),
         Ok(_) => print!("file read succesfully \n"),
     }
+    s = s.to_lowercase();
 
-    s.replace(".", "");
-    s.replace(",","");
 
+//    s = s.chars()
+//        .map(|x| match x {
+//            '!' => ' ',
+//            '?' => ' ',
+//            '.' => ' ',
+//            ',' => ' ',
+//            ';' => ' ',
+//            ':' => ' ',
+//            _ => x
+//            }
+//        ).collect::<String>();
+
+
+    let reg = Regex::new(r"[^a-z '\n]").unwrap();
+    let s2 = reg.replace_all(   &s, "");
 
     let mut words: HashMap<&str, usize> = HashMap::new();
-    for word in s.split(is_whitespace).filter(is_not_empty) {
+    for word in s2.split(is_whitespace).filter(is_not_empty) {
         if let Some(count) = words.get_mut(word) {
             *count += 1;
             continue;
@@ -62,7 +79,13 @@ fn main() {
             // println!("{} / {}", key, value);
             tot_chars += key.chars().count() * *value;
         }
-        return tot_chars/count;
+        if(count == 0){
+            return 0;
+        }
+        else{
+            return tot_chars/count;
+        }
+
     }
 
     fn words_per_size(map: &mut HashMap<&str, usize>) -> HashMap<usize, usize> {
