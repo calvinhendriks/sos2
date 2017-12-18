@@ -1,4 +1,6 @@
 use std::io::{self, Write};
+use std::cmp::Ordering;
+mod sorted_container;
 
 #[derive(Debug)]
 enum Command {
@@ -42,7 +44,7 @@ fn parse_command(input: String) -> Command {
 }
 
 fn main() {
-
+    let mut tree = sorted_container::tree_new();
     loop {
         let mut input = String::new();
 
@@ -52,7 +54,8 @@ fn main() {
             Ok(_) => {
                 match parse_command(input) {
                     Command::Insert{age, name} => {
-                        unimplemented!();
+                        let mut tree2 = &tree;
+                        sorted_container::tree_insert(tree2,sorted_container::data_new(age, name));
                     },
                     Command::Erase{age, name} => {
                         unimplemented!();
@@ -61,7 +64,8 @@ fn main() {
                         unimplemented!();
                                         }
                     Command::Print => {
-                        unimplemented!();
+                        let mut tree3 = &tree;
+                        sorted_container::print_tree(tree3);
                     },
                     Command::Exit => {
                         println!("Exiting...");
