@@ -33,21 +33,10 @@ fn main() {
         Err(why) => panic!("couldn't read {}: {}", display,
                                                    why.description()),
         Ok(_) => print!("file read succesfully \n"),
-    }
+
+
+    //remove all capital letters.
     s = s.to_lowercase();
-
-
-//    s = s.chars()
-//        .map(|x| match x {
-//            '!' => ' ',
-//            '?' => ' ',
-//            '.' => ' ',
-//            ',' => ' ',
-//            ';' => ' ',
-//            ':' => ' ',
-//            _ => x
-//            }
-//        ).collect::<String>();
 
 
     let reg = Regex::new(r"[^a-z '\n]").unwrap();
@@ -131,5 +120,5 @@ fn main() {
         c == ' ' || c == '\t' || c == '\n'
     }
 
-    // `file` goes out of scope, and the "hello.txt" file gets closed
+
 }
